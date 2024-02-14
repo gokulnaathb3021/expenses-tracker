@@ -115,7 +115,7 @@ const Tracker: React.FC = () => {
               </div>
             </div>
           ))}
-          {expenses === null && (
+          {!isFetching && expenses === null && (
             <p className={styles.fetching}>You don't have any expenses yet.</p>
           )}
           {expenses !== null && (
