@@ -89,3 +89,27 @@
   color: red;
   font-size: large;
 }
+
+@media screen and (max-width: 480px) {
+  .login {
+    width: 350px;
+    height: 350px;
+  }
+
+  .loginForm input {
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: large;
+  }
+
+  .heading {
+    font-size: 30px;
+  }
+
+  .signUp {
+    width: 100%;
+    margin-top: 20px;
+    font-size: large;
+    gap: 5px;
+  }
+}

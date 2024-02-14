@@ -7,3 +7,10 @@
   width: 500px;
   height: 500px;
 }
+
+@media screen and (max-width: 480px) {
+  .signup {
+    width: 350px;
+    height: 350px;
+  }
+}

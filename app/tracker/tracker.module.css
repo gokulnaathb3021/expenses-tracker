@@ -39,6 +39,8 @@
   background-color: #1e3a4c;
   color: white;
   border-color: aliceblue;
+  display: flex;
+  justify-content: center;
 }
 
 .heading {
@@ -99,8 +101,8 @@
   color: white;
 }
 
-@media screen and (max_width: 480px) {
+@media screen and (max-width: 480px) {
   .formAndExpenses {
-    width: 300px;
+    width: 250px;
   }
 }
