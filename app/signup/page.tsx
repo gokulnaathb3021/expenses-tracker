@@ -1,36 +1,38 @@
 "use client";
-import Link from "next/link";
-import styles from "./page.module.css";
-import { useContext, useRef, useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import styles from "../page.module.css";
+import { useContext, useRef } from "react";
 import { auth } from "@/firebase/config";
 import { useRouter } from "next/navigation";
-import { AuthContext } from "./context/AuthContext";
-export default function Home() {
+import { AuthContext } from "../context/AuthContext";
+import Link from "next/link";
+import classes from "./signup.module.css";
+
+const Signup: React.FC = () => {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
-  const [areCredentialsInvalid, setAreCredentialsInvalid] =
-    useState<boolean>(false);
   const router = useRouter();
   const user = useContext(AuthContext);
 
   if (user) router.push("/tracker");
 
-  function handleLogin(e: React.FormEvent) {
+  async function handleSignup(e: React.FormEvent) {
     e.preventDefault();
     const email = emailInputRef.current?.value;
     const password = passwordInputRef.current?.value;
-    signInWithEmailAndPassword(auth, email as string, password as string)
-      .then((userCredential) => router.push("/tracker"))
+    createUserWithEmailAndPassword(auth, email as string, password as string)
+      .then((userCredential) => {
+        router.push("/tracker");
+      })
       .catch((error) => {
-        setAreCredentialsInvalid(true);
         console.log(`${error.message} - Code is ${error.code}`);
       });
   }
+
   return (
     !user && (
       <div className={styles.container}>
-        <div className={styles.login}>
+        <div className={classes.signup}>
           <p className={styles.heading}>Expenses Tracker</p>
           <form className={styles.loginForm}>
             <input
@@ -43,21 +45,20 @@ export default function Home() {
               placeholder="password"
               ref={passwordInputRef}
             />
-            <button type="submit" onClick={handleLogin}>
-              $LOGIN
+            <button onClick={handleSignup} type="submit">
+              $SIGNUP
             </button>
           </form>
-          {areCredentialsInvalid && (
-            <p className={styles.invalid}>Invalid credentials!</p>
-          )}
           <div className={styles.signUp}>
-            New user?
-            <Link href="/signup">
-              <button type="submit">Sign up</button>
+            Signed up?
+            <Link href="/">
+              <button type="submit">Login</button>
             </Link>
           </div>
         </div>
       </div>
     )
   );
-}
+};
+
+export default Signup;
