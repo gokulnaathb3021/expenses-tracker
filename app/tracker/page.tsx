@@ -3,7 +3,7 @@ import { auth, db } from "@/firebase/config";
 import { signOut } from "firebase/auth";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import styles from "./tracker.module.css";
 import {
   addDoc,
@@ -18,7 +18,7 @@ import {
 const Tracker: React.FC = () => {
   const user = useContext(AuthContext);
   const router = useRouter();
-  if (!user) router.push("/");
+  if (!user) redirect("/");
 
   const expenseNameInputRef = useRef<HTMLInputElement>(null);
   const spentInputRef = useRef<HTMLInputElement>(null);

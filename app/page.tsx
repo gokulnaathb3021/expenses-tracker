@@ -4,7 +4,7 @@ import styles from "./page.module.css";
 import { useContext, useRef, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase/config";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import { AuthContext } from "./context/AuthContext";
 export default function Home() {
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -14,14 +14,14 @@ export default function Home() {
   const router = useRouter();
   const user = useContext(AuthContext);
 
-  if (user) router.push("/tracker");
+  if (user) redirect("/tracker");
 
   function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     const email = emailInputRef.current?.value;
     const password = passwordInputRef.current?.value;
     signInWithEmailAndPassword(auth, email as string, password as string)
-      .then((userCredential) => router.push("/tracker"))
+      .then((userCredential) => redirect("/tracker"))
       .catch((error) => {
         setAreCredentialsInvalid(true);
         console.log(`${error.message} - Code is ${error.code}`);

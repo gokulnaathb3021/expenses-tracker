@@ -3,7 +3,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import styles from "../page.module.css";
 import { useContext, useRef } from "react";
 import { auth } from "@/firebase/config";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import { AuthContext } from "../context/AuthContext";
 import Link from "next/link";
 import classes from "./signup.module.css";
@@ -14,7 +14,7 @@ const Signup: React.FC = () => {
   const router = useRouter();
   const user = useContext(AuthContext);
 
-  if (user) router.push("/tracker");
+  if (user) redirect("/tracker");
 
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault();
@@ -22,7 +22,7 @@ const Signup: React.FC = () => {
     const password = passwordInputRef.current?.value;
     createUserWithEmailAndPassword(auth, email as string, password as string)
       .then((userCredential) => {
-        router.push("/tracker");
+        redirect("/tracker");
       })
       .catch((error) => {
         console.log(`${error.message} - Code is ${error.code}`);
