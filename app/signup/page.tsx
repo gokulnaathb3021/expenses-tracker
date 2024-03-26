@@ -1,7 +1,7 @@
 "use client";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import styles from "../page.module.css";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { auth } from "@/firebase/config";
 import { useRouter, redirect } from "next/navigation";
 import { AuthContext } from "../context/AuthContext";
@@ -16,7 +16,9 @@ const Signup: React.FC = () => {
 
   if (user) redirect("/tracker");
 
+  const [errorSignUp, setErrorSignUp] = useState<string>("");
   async function handleSignup(e: React.FormEvent) {
+    if (errorSignUp !== "") setErrorSignUp("");
     e.preventDefault();
     const email = emailInputRef.current?.value;
     const password = passwordInputRef.current?.value;
@@ -26,6 +28,7 @@ const Signup: React.FC = () => {
       })
       .catch((error) => {
         console.log(`${error.message} - Code is ${error.code}`);
+        setErrorSignUp(error.message);
       });
   }
 
@@ -48,6 +51,7 @@ const Signup: React.FC = () => {
             <button onClick={handleSignup} type="submit">
               $SIGNUP
             </button>
+            {errorSignUp !== "" && <p>{errorSignUp}</p>}
           </form>
           <div className={styles.signUp}>
             Signed up?
